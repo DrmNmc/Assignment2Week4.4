@@ -1,36 +1,35 @@
 ﻿using System;
 
-namespace ClubInterface
+namespace SealedClass
 {
-    interface IClub
+    interface IEmployee
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
         public string Fullname();
+        public double Pay();
     }
 
-    class ClubMember : IClub
+    class Employee : IEmployee
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
 
-        public ClubMember()
+        public Employee()
         {
-
+            Id = 0;
+            FirstName = string.Empty;
+            LastName = string.Empty;
         }
 
-        public ClubMember(int id, string firstName, string lastName, string email, string phoneNumber)
+        public Employee(int id, string firstName, string lastName)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
-            Email = email;
-            PhoneNumber = phoneNumber;
         }
 
         public string Fullname()
@@ -38,16 +37,37 @@ namespace ClubInterface
             return FirstName + " " + LastName;
         }
 
-        public void DisplayPersonalInfo()
+        public virtual double Pay()
         {
-            Console.WriteLine("Name: {0}", Fullname());
-            Console.WriteLine("Email: {0}", Email);
-            Console.WriteLine("Phone Number: {0}", PhoneNumber);
+            double salary;
+            Console.WriteLine($"What is {this.Fullname()}'s weekly salary?");
+            salary = double.Parse(Console.ReadLine());
+            return salary;
+        }
+    }
+
+    sealed class Executive : Employee
+    {
+        public string Title { get; set; }
+        public double Salary { get; set; }
+
+        public Executive() : base()
+        {
+            Title = string.Empty;
+            Salary = 0;
         }
 
-        public void DisplayId()
+        public Executive(int id, string firstName, string lastName, string title, double salary) : base(id, firstName, lastName)
         {
-            Console.WriteLine("ID: {0}", Id);
+            Title = title;
+            Salary = salary;
+        }
+
+        public override double Pay()
+        {
+            Console.WriteLine($"What is {this.Fullname()}'s weekly bonus?");
+            double bonus = double.Parse(Console.ReadLine());
+            return Salary + bonus;
         }
     }
 
@@ -55,9 +75,14 @@ namespace ClubInterface
     {
         static void Main(string[] args)
         {
-            ClubMember member = new ClubMember(1, "Scary", "Terri", "scaryT@email.com", "2315551212");
-            member.DisplayId();
-            member.DisplayPersonalInfo();
+            Employee employee = new Employee(1, "Scary", "Terri");
+            Console.WriteLine($"Employee: {employee.Fullname()}");
+            Console.WriteLine($"Salary: {employee.Pay()}");
+
+            Executive executive = new Executive(2, "Cruella", "DeVil", "CEO", 10000000);
+            Console.WriteLine($"Executive: {executive.Fullname()}");
+            Console.WriteLine($"Title: {executive.Title}");
+            Console.WriteLine($"Salary: {executive.Pay()}");
         }
     }
 }
