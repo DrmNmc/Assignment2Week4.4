@@ -1,66 +1,40 @@
 ﻿using System;
 
-namespace AbstractAnimalClass
+namespace NerdStuff
 {
-    abstract class Animal
+    interface ITech
     {
-        public abstract string Name { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
 
-        public string Color { get; set; }
-        public int Age { get; set; }
-
-        public abstract string Describe();
-        public string whatAmI()
-        {
-            return "I am an animal";
-        }
+        public void TurnOn();
     }
 
-    class Dog : Animal
+    class Laptop : ITech
     {
-        public override string Name { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
 
-        public Dog()
+        public Laptop()
         {
-            Name = "Unknown";
-            Color = "Unknown";
-            Age = 0;
+            Brand = "Unknown";
+            Model = "Unknown";
         }
 
-        public Dog(string name, string color, int age)
+        public Laptop(string brand, string model)
         {
-            Name = name;
-            Color = color;
-            Age = age;
+            Brand = brand;
+            Model = model;
         }
 
-        public override string Describe()
+        public void TurnOn()
         {
-            return $"I am a {Color} dog named {Name} and I am {Age} years old.";
-        }
-    }
-
-    class Cat : Animal
-    {
-        public override string Name { get; set; }
-
-        public Cat()
-        {
-            Name = "Unknown";
-            Color = "Unknown";
-            Age = 0;
+            Console.WriteLine($"Turning on {Brand} {Model}...");
         }
 
-        public Cat(string name, string color, int age)
+        public string GetInfo()
         {
-            Name = name;
-            Color = color;
-            Age = age;
-        }
-
-        public override string Describe()
-        {
-            return $"I am a {Color} cat named {Name} and I am {Age} years old.";
+            return $"{Brand} {Model}";
         }
     }
 
@@ -68,13 +42,9 @@ namespace AbstractAnimalClass
     {
         static void Main(string[] args)
         {
-            Dog dog1 = new Dog();
-            Console.WriteLine(dog1.whatAmI());
-            Console.WriteLine(dog1.Describe());
-
-            Cat cat1 = new Cat("Sesame", "tan and orange", 3);
-            Console.WriteLine(cat1.whatAmI());
-            Console.WriteLine(cat1.Describe());
+            Laptop laptop = new Laptop("Dell", "XPS 13");
+            laptop.TurnOn();
+            Console.WriteLine($"Laptop Model: {laptop.GetInfo()}");
         }
     }
 }
